@@ -50,6 +50,7 @@ class Sidebar extends StatelessWidget {
       theme: theme,
       extendedTheme: theme.copyWith(width: 300),
       footerDivider: divider,
+      footerFitType: FooterFitType.fit,
       headerBuilder: (context, extended) {
         return SizedBox(
           height: 100,

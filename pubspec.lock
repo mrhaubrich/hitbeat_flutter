@@ -118,10 +118,11 @@ packages:
   sidebarx:
     dependency: "direct main"
     description:
-      name: sidebarx
-      sha256: "7042d64844b8e64ca5c17e70d89b49df35b54a26c015b90000da9741eab70bc0"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: f663268c4c16f3fb277a4c6627f5be3941095d1e
+      url: "https://github.com/mrhaubrich/sidebarx.git"
+    source: git
     version: "0.16.3"
   sky_engine:
     dependency: transitive
