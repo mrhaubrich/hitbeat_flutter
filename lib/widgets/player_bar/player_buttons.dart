@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hitbeat_flutter/widgets/player_bar/play_pause_button.dart';
+import 'package:hitbeat_flutter/widgets/player_bar/repeat_button.dart';
+import 'package:hitbeat_flutter/widgets/player_bar/shuffle_button.dart';
 
 class PlayerButtons extends StatelessWidget {
   const PlayerButtons({super.key});
@@ -21,10 +23,7 @@ class PlayerButtons extends StatelessWidget {
             icon: const Icon(Icons.stop_rounded),
             onPressed: () {},
           ),
-          IconButton(
-            icon: const Icon(Icons.shuffle_rounded),
-            onPressed: () {},
-          ),
+          const ShuffleButton(),
           IconButton(
             icon: const Icon(Icons.skip_previous),
             onPressed: () {},
@@ -34,10 +33,7 @@ class PlayerButtons extends StatelessWidget {
             icon: const Icon(Icons.skip_next),
             onPressed: () {},
           ),
-          IconButton(
-            icon: const Icon(Icons.repeat_rounded),
-            onPressed: () {},
-          ),
+          const RepeatButton(),
         ],
       ),
     );
