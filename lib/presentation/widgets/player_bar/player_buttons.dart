@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hitbeat_flutter/widgets/player_bar/play_pause_button.dart';
-import 'package:hitbeat_flutter/widgets/player_bar/repeat_button.dart';
-import 'package:hitbeat_flutter/widgets/player_bar/shuffle_button.dart';
+import 'package:hitbeat_flutter/presentation/widgets/player_bar/play_pause_button.dart';
+import 'package:hitbeat_flutter/presentation/widgets/player_bar/repeat_button.dart';
+import 'package:hitbeat_flutter/presentation/widgets/player_bar/shuffle_button.dart';
 
 class PlayerButtons extends StatelessWidget {
   const PlayerButtons({super.key});

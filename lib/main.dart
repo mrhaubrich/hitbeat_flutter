@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hitbeat_flutter/widgets/pages/pages.dart';
-import 'package:hitbeat_flutter/widgets/player_bar/player_bar.dart';
-import 'package:hitbeat_flutter/widgets/sidebar/sidebar.dart';
+import 'package:hitbeat_flutter/presentation/widgets/pages/pages.dart';
+import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_bar.dart';
+import 'package:hitbeat_flutter/presentation/widgets/sidebar/sidebar.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 void main() {

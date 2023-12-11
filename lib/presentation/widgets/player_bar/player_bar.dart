@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hitbeat_flutter/widgets/player_bar/player_buttons.dart';
-import 'package:hitbeat_flutter/widgets/player_bar/player_progress.dart';
-import 'package:hitbeat_flutter/widgets/player_bar/volume_slider.dart';
+import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_buttons.dart';
+import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_progress.dart';
+import 'package:hitbeat_flutter/presentation/widgets/player_bar/volume_slider.dart';
 
 class PlayerBar extends StatelessWidget {
   const PlayerBar({super.key});

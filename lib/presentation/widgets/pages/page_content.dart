@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hitbeat_flutter/presentation/pages/favorites.dart';
 import 'package:hitbeat_flutter/presentation/pages/start.dart';
 import 'package:hitbeat_flutter/presentation/pages/tracks.dart';
-import 'package:hitbeat_flutter/widgets/pages/pages.dart';
+import 'package:hitbeat_flutter/presentation/widgets/pages/pages.dart';
 
 class PageContent {
   final int index;

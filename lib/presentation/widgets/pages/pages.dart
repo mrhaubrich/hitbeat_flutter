@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hitbeat_flutter/widgets/pages/page_content.dart';
+import 'package:hitbeat_flutter/presentation/widgets/pages/page_content.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 class SearchContent extends StatelessWidget {
