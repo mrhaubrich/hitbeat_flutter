@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hitbeat_flutter/main.dart';
+import 'package:hitbeat_flutter/themes.dart';
 import 'package:provider/provider.dart';
 
 class CustomNamedPageTransition extends PageRouteBuilder {

@@ -3,6 +3,7 @@ import 'package:hitbeat_flutter/presentation/widgets/miolo.dart';
 import 'package:hitbeat_flutter/presentation/widgets/pages/page_content.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_bar.dart';
 import 'package:hitbeat_flutter/presentation/widgets/sidebar/sidebar.dart';
+import 'package:hitbeat_flutter/themes.dart';
 import 'package:provider/provider.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -31,18 +32,7 @@ class SidebarXExampleApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: PageContentFactory.createNamedRoutes(),
         navigatorKey: _navigatorKey,
-        theme: ThemeData(
-          primaryColor: primaryColor,
-          canvasColor: canvasColor,
-          scaffoldBackgroundColor: scaffoldBackgroundColor,
-          textTheme: const TextTheme(
-            headlineSmall: TextStyle(
-              color: Colors.white,
-              fontSize: 46,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ),
+        theme: themeData,
         builder: (context, child) {
           return Scaffold(
             body: SizedBox(
@@ -77,10 +67,3 @@ class SidebarXExampleApp extends StatelessWidget {
     );
   }
 }
-
-const primaryColor = Color(0xFF685BFF);
-const canvasColor = Color(0xFF2E2E48);
-const scaffoldBackgroundColor = Color(0xFF464667);
-const accentCanvasColor = Color(0xFF3E3E61);
-const white = Colors.white;
-final actionColor = const Color(0xFF5F5FA7).withOpacity(0.6);
