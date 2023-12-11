@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hitbeat_flutter/presentation/pages/albums.dart';
+import 'package:hitbeat_flutter/presentation/pages/artists.dart';
 import 'package:hitbeat_flutter/presentation/pages/favorites.dart';
+import 'package:hitbeat_flutter/presentation/pages/genres.dart';
+import 'package:hitbeat_flutter/presentation/pages/library.dart';
+import 'package:hitbeat_flutter/presentation/pages/not_found.dart';
+import 'package:hitbeat_flutter/presentation/pages/playlists.dart';
 import 'package:hitbeat_flutter/presentation/pages/start.dart';
 import 'package:hitbeat_flutter/presentation/pages/tracks.dart';
-import 'package:hitbeat_flutter/presentation/widgets/pages/pages.dart';
 
 class PageContent {
   final int index;
@@ -40,27 +45,35 @@ class PageContentFactory {
         ),
         PageContent(
           index: 3,
-          content: const FavoritesContent(),
+          content: const PlaylistsPage(),
           icon: Icons.my_library_music_rounded,
           label: 'Playlists',
         ),
         PageContent(
           index: 4,
-          content: const ProfileContent(),
+          content: const GenresPage(),
           icon: Icons.music_note_rounded,
           label: 'Genres',
         ),
         PageContent(
           index: 5,
-          content: const SettingsContent(),
+          content: const ArtistsPage(),
           icon: Icons.people_rounded,
           label: 'Artists',
         ),
         PageContent(
-          index: 5,
-          content: const SettingsContent(),
+          index: 6,
+          content: const AlbumsPage(),
           icon: Icons.album_rounded,
           label: 'Albums',
+        ),
+
+        // footer:
+        PageContent(
+          label: 'Library',
+          icon: Icons.library_music_rounded,
+          index: 7,
+          content: const LibraryPage(),
         ),
       };
 
@@ -70,7 +83,7 @@ class PageContentFactory {
       orElse: () {
         return PageContent(
           index: index,
-          content: const NotFoundContent(),
+          content: const NotFoundPage(),
           icon: Icons.error,
           label: 'Not found',
         );

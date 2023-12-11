@@ -43,6 +43,18 @@ class Sidebar extends StatelessWidget {
         hoverColor: Colors.white.withOpacity(0.1),
       );
 
+  List<SidebarXItem> get items => PageContentFactory.items
+      .map(
+        (e) => SidebarXItem(
+          label: e.label,
+          icon: e.icon,
+          onTap: () {
+            controller.selectIndex(e.index);
+          },
+        ),
+      )
+      .toList();
+
   @override
   Widget build(BuildContext context) {
     return SidebarX(
@@ -96,26 +108,8 @@ class Sidebar extends StatelessWidget {
           ),
         );
       },
-      items: PageContentFactory.items
-          .map(
-            (e) => SidebarXItem(
-              label: e.label,
-              icon: e.icon,
-              onTap: () {
-                controller.selectIndex(e.index);
-              },
-            ),
-          )
-          .toList(),
-      footerItems: [
-        SidebarXItem(
-          label: 'Settings',
-          icon: Icons.settings,
-          onTap: () {
-            controller.selectIndex(5);
-          },
-        ),
-      ],
+      items: items.sublist(0, 7),
+      footerItems: items.sublist(7),
     );
   }
 }
