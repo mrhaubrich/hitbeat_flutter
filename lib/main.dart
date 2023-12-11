@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hitbeat_flutter/presentation/widgets/pages/pages.dart';
+import 'package:hitbeat_flutter/presentation/widgets/pages/page_content.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_bar.dart';
 import 'package:hitbeat_flutter/presentation/widgets/sidebar/sidebar.dart';
-import 'package:sidebarx/sidebarx.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(SidebarXExampleApp());
@@ -11,51 +11,61 @@ void main() {
 class SidebarXExampleApp extends StatelessWidget {
   SidebarXExampleApp({Key? key}) : super(key: key);
 
-  final _controller = SidebarXController(selectedIndex: 0);
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+
+  final GlobalKey _materialAppKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SidebarX Example',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: primaryColor,
-        canvasColor: canvasColor,
-        scaffoldBackgroundColor: scaffoldBackgroundColor,
-        textTheme: const TextTheme(
-          headlineSmall: TextStyle(
-            color: Colors.white,
-            fontSize: 46,
-            fontWeight: FontWeight.w800,
+    return MultiProvider(
+      providers: [
+        Provider<GlobalKey<NavigatorState>>.value(value: _navigatorKey),
+        Provider<GlobalKey>.value(value: _materialAppKey),
+      ],
+      child: MaterialApp(
+        key: _materialAppKey,
+        debugShowCheckedModeBanner: false,
+        routes: PageContentFactory.createNamedRoutes(),
+        navigatorKey: _navigatorKey,
+        theme: ThemeData(
+          primaryColor: primaryColor,
+          canvasColor: canvasColor,
+          scaffoldBackgroundColor: scaffoldBackgroundColor,
+          textTheme: const TextTheme(
+            headlineSmall: TextStyle(
+              color: Colors.white,
+              fontSize: 46,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ),
-      ),
-      home: Scaffold(
-        body: SizedBox(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Sidebar(
-                      controller: _controller,
+        builder: (context, child) {
+          return Scaffold(
+            body: SizedBox(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Sidebar(),
+                        Expanded(
+                          child: Center(
+                            child: child,
+                          ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: Center(
-                        child: Miolo(controller: _controller),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  const PlayerBar(),
+                ],
               ),
-              const PlayerBar(),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

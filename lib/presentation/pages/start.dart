@@ -5,9 +5,11 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'Welcome to HitBeat!',
-      style: Theme.of(context).textTheme.headlineSmall,
+    return Center(
+      child: Text(
+        'Welcome to HitBeat!',
+        style: Theme.of(context).textTheme.headlineSmall,
+      ),
     );
   }
 }

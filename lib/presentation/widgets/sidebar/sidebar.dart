@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hitbeat_flutter/main.dart';
+import 'package:hitbeat_flutter/presentation/widgets/page_route.dart';
 import 'package:hitbeat_flutter/presentation/widgets/pages/page_content.dart';
+import 'package:provider/provider.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 class Sidebar extends StatelessWidget {
-  const Sidebar({super.key, required this.controller});
+  Sidebar({super.key});
 
-  final SidebarXController controller;
+  final _controller = SidebarXController(selectedIndex: 0);
+
+  final ValueNotifier<int> _selectedPage = ValueNotifier(0);
 
   static SidebarXTheme get theme => SidebarXTheme(
         margin: const EdgeInsets.all(10),
@@ -49,7 +53,7 @@ class Sidebar extends StatelessWidget {
           label: e.label,
           icon: e.icon,
           onTap: () {
-            controller.selectIndex(e.index);
+            _controller.selectIndex(e.index);
           },
         ),
       )
@@ -58,7 +62,22 @@ class Sidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SidebarX(
-      controller: controller,
+      key: UniqueKey(),
+      controller: _controller
+        ..addListener(() {
+          if (_selectedPage.value != _controller.selectedIndex) {
+            debugPrint('Selected index: ${_controller.selectedIndex}');
+            _selectedPage.value = _controller.selectedIndex;
+            context
+                .read<GlobalKey<NavigatorState>>()
+                .currentState!
+                .pushReplacement(
+                  CustomNamedPageTransition(
+                    PageContentFactory.getRoute(_controller.selectedIndex),
+                  ),
+                );
+          }
+        }),
       theme: theme,
       extendedTheme: theme.copyWith(width: 300),
       footerDivider: divider,

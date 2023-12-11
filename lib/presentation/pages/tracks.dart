@@ -5,9 +5,11 @@ class TracksPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'Tracks',
-      style: Theme.of(context).textTheme.headlineSmall,
+    return Center(
+      child: Text(
+        'Tracks',
+        style: Theme.of(context).textTheme.headlineSmall,
+      ),
     );
   }
 }
