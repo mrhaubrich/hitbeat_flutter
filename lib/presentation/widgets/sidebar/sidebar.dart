@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Stack;
+import 'package:hitbeat_flutter/extensions/sidebar_stack.dart';
 import 'package:hitbeat_flutter/main.dart';
 import 'package:hitbeat_flutter/presentation/widgets/page_route.dart';
 import 'package:hitbeat_flutter/presentation/widgets/pages/page_content.dart';
@@ -6,11 +7,12 @@ import 'package:provider/provider.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 class Sidebar extends StatelessWidget {
-  Sidebar({super.key});
+  const Sidebar({
+    super.key,
+    required this.controller,
+  });
 
-  final _controller = SidebarXController(selectedIndex: 0);
-
-  final ValueNotifier<int> _selectedPage = ValueNotifier(0);
+  final SidebarXController controller;
 
   static SidebarXTheme get theme => SidebarXTheme(
         margin: const EdgeInsets.all(10),
@@ -47,13 +49,18 @@ class Sidebar extends StatelessWidget {
         hoverColor: Colors.white.withOpacity(0.1),
       );
 
-  List<SidebarXItem> get items => PageContentFactory.items
+  List<SidebarXItem> items(BuildContext context) => PageContentFactory.items
       .map(
         (e) => SidebarXItem(
           label: e.label,
           icon: e.icon,
           onTap: () {
-            _controller.selectIndex(e.index);
+            controller.push(e.index);
+            context.read<GlobalKey<NavigatorState>>().currentState!.push(
+                  CustomNamedPageTransition(
+                    PageContentFactory.getRoute(controller.selectedIndex),
+                  ),
+                );
           },
         ),
       )
@@ -63,21 +70,7 @@ class Sidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SidebarX(
       key: UniqueKey(),
-      controller: _controller
-        ..addListener(() {
-          if (_selectedPage.value != _controller.selectedIndex) {
-            debugPrint('Selected index: ${_controller.selectedIndex}');
-            _selectedPage.value = _controller.selectedIndex;
-            context
-                .read<GlobalKey<NavigatorState>>()
-                .currentState!
-                .pushReplacement(
-                  CustomNamedPageTransition(
-                    PageContentFactory.getRoute(_controller.selectedIndex),
-                  ),
-                );
-          }
-        }),
+      controller: controller,
       theme: theme,
       extendedTheme: theme.copyWith(width: 300),
       footerDivider: divider,
@@ -127,8 +120,8 @@ class Sidebar extends StatelessWidget {
           ),
         );
       },
-      items: items.sublist(0, 7),
-      footerItems: items.sublist(7),
+      items: items(context).sublist(0, 7),
+      footerItems: items(context).sublist(7),
     );
   }
 }
