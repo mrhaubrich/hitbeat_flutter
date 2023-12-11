@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hitbeat_flutter/widgets/player_bar/player_buttons.dart';
+import 'package:hitbeat_flutter/widgets/player_bar/player_progress.dart';
+import 'package:hitbeat_flutter/widgets/player_bar/volume_slider.dart';
 
 class PlayerBar extends StatelessWidget {
   const PlayerBar({super.key});
@@ -30,12 +33,15 @@ class PlayerBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 75,
+      height: 90,
       color: const Color.fromARGB(255, 34, 35, 51),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Flexible(
+          Expanded(
+            flex: 2,
             child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
               leading: ColorFiltered(
                 colorFilter: greyscale,
                 child: const CircleAvatar(
@@ -60,7 +66,22 @@ class PlayerBar extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
+          const Expanded(
+            flex: 4,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(flex: 2, child: PlayerButtons()),
+                Flexible(child: PlayerProgress()),
+              ],
+            ),
+          ),
+          const Expanded(
+            flex: 2,
+            child: VolumeSlider(),
+          ),
         ],
       ),
     );

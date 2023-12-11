@@ -38,6 +38,7 @@ dependencies:
   sidebarx:
     git:
       url: https://github.com/mrhaubrich/sidebarx.git
+  syncfusion_flutter_sliders: ^23.2.7
 
 dev_dependencies:
   flutter_test:
