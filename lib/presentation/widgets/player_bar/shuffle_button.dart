@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hitbeat_flutter/business_logic/blocs/shuffle_button/shuffle_button_bloc.dart';
+import 'package:hitbeat_flutter/business_logic/blocs/shuffle_button/shuffle_button_event.dart';
+import 'package:hitbeat_flutter/business_logic/blocs/shuffle_button/shuffle_button_state.dart';
 
-class ShuffleButton extends StatefulWidget {
+class ShuffleButton extends StatelessWidget {
   const ShuffleButton({super.key});
 
   @override
-  State<ShuffleButton> createState() => _ShuffleButtonState();
-}
-
-class _ShuffleButtonState extends State<ShuffleButton> {
-  bool isShuffled = false;
-
-  @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.shuffle_rounded),
-      color: isShuffled ? Theme.of(context).primaryColor : Colors.white60,
-      onPressed: () {
-        setState(() {
-          isShuffled = !isShuffled;
-        });
-      },
+    return BlocProvider(
+      create: (context) => ShuffleButtonBloc(),
+      child: BlocBuilder<ShuffleButtonBloc, ShuffleButtonState>(
+        builder: (context, state) {
+          return IconButton(
+            icon: const Icon(Icons.shuffle_rounded),
+            color: state.getColor(context),
+            onPressed: () {
+              context.read<ShuffleButtonBloc>().add(ShuffleButtonToggle());
+            },
+          );
+        },
+      ),
     );
   }
 }
