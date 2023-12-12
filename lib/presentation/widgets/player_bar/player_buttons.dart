@@ -28,7 +28,7 @@ class PlayerButtons extends StatelessWidget {
             icon: const Icon(Icons.skip_previous),
             onPressed: () {},
           ),
-          const PlayPayseButton(),
+          const PlayPauseButton(),
           IconButton(
             icon: const Icon(Icons.skip_next),
             onPressed: () {},
