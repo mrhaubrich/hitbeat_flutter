@@ -18,7 +18,10 @@ class PlayerProgressInitial extends PlayerProgressState {
 }
 
 class PlayerProgressChanged extends PlayerProgressState {
-  const PlayerProgressChanged({required super.value, required super.max});
+  const PlayerProgressChanged({
+    required super.value,
+    required super.max,
+  });
 }
 
 class PlayerProgressEnd extends PlayerProgressState {

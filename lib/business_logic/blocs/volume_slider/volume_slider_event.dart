@@ -19,11 +19,11 @@ class VolumeSliderEvent extends VolumeEvent {
 }
 
 class VolumeSliderChange extends VolumeSliderEvent {
-  const VolumeSliderChange({required double volume}) : super(volume: volume);
+  const VolumeSliderChange({required super.volume});
 }
 
 class VolumeSliderFinish extends VolumeSliderEvent {
-  const VolumeSliderFinish({required double volume}) : super(volume: volume);
+  const VolumeSliderFinish({required super.volume});
 }
 
 class VolumeMuteToggle extends VolumeEvent {

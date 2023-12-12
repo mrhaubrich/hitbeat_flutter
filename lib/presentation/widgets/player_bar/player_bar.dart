@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hitbeat_flutter/business_logic/player/player.dart';
+import 'package:hitbeat_flutter/business_logic/player/track.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_buttons.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_progress.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/volume_slider.dart';
 import 'package:marquee/marquee.dart';
+import 'package:provider/provider.dart';
 
 class SongInfo extends StatelessWidget {
-  const SongInfo({super.key});
+  const SongInfo({
+    super.key,
+    required this.track,
+  });
+
+  final Track track;
 
   @override
   Widget build(BuildContext context) {
@@ -32,23 +40,28 @@ class SongInfo extends StatelessWidget {
       0,
     ]);
 
-    return const ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
-      leading: ColorFiltered(
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+      leading: const ColorFiltered(
         colorFilter: greyscale,
         child: CircleAvatar(
           backgroundImage: AssetImage('assets/hitbeat-icon.png'),
           backgroundColor: Colors.transparent,
         ),
       ),
-      title: SongTitle(),
-      subtitle: ArtistName(),
+      title: SongTitle(title: track.title),
+      subtitle: const ArtistName(),
     );
   }
 }
 
 class SongTitle extends StatelessWidget {
-  const SongTitle({super.key});
+  const SongTitle({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +74,9 @@ class SongTitle extends StatelessWidget {
             fontSize: 18,
             fontWeight: FontWeight.w500,
           );
-          const text = 'Song Title Very Long Song Title Extra Long Song Title';
 
           return ShouldScrollText(
-            text: text,
+            text: title,
             style: style,
             maxWidth: constraints.maxWidth,
           );
@@ -148,7 +160,9 @@ class ShouldScrollText extends StatelessWidget {
 }
 
 class PlayerControls extends StatelessWidget {
-  const PlayerControls({super.key});
+  const PlayerControls({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +171,9 @@ class PlayerControls extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(flex: 2, child: PlayerButtons()),
-        Flexible(child: PlayerProgress()),
+        Flexible(
+          child: PlayerProgress(),
+        ),
       ],
     );
   }
@@ -171,19 +187,32 @@ class PlayerBar extends StatelessWidget {
     return Container(
       height: 90,
       color: const Color.fromARGB(255, 34, 35, 51),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           Expanded(
             flex: 2,
-            child: SongInfo(),
+            child: StreamBuilder(
+              stream: Provider.of<Player>(context).currentTrackStream,
+              builder: (context, trackSnapshot) {
+                if (!trackSnapshot.hasData) {
+                  return SongInfo(
+                    track: Track(
+                      title: 'No song playing',
+                      path: '',
+                    ),
+                  );
+                }
+                return SongInfo(track: trackSnapshot.data!);
+              },
+            ),
           ),
-          Expanded(
+          const Expanded(
             flex: 6,
             child: PlayerControls(),
           ),
-          Expanded(
+          const Expanded(
             flex: 2,
             child: VolumeSlider(),
           ),

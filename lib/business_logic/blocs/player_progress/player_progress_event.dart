@@ -6,11 +6,20 @@ class PlayerProgressEvent extends Equatable {
   const PlayerProgressEvent({required this.value, required this.max});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [value, max];
 }
 
 class PlayerProgressChange extends PlayerProgressEvent {
-  const PlayerProgressChange({required super.value, required super.max});
+  final bool isDragging;
+
+  const PlayerProgressChange({
+    required super.value,
+    required super.max,
+    required this.isDragging,
+  });
+
+  @override
+  List<Object> get props => super.props..add(isDragging);
 }
 
 class PlayerProgressFinish extends PlayerProgressEvent {
