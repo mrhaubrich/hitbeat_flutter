@@ -14,23 +14,6 @@ class Sidebar extends StatelessWidget {
 
   final SidebarXController controller;
 
-  List<SidebarXItem> items(BuildContext context) => PageContentFactory.items
-      .map(
-        (e) => SidebarXItem(
-          label: e.label,
-          icon: e.icon,
-          onTap: () {
-            controller.push(e.index);
-            context.read<GlobalKey<NavigatorState>>().currentState!.push(
-                  CustomNamedPageTransition(
-                    PageContentFactory.getRoute(controller.selectedIndex),
-                  ),
-                );
-          },
-        ),
-      )
-      .toList();
-
   @override
   Widget build(BuildContext context) {
     return SidebarX(
@@ -67,6 +50,10 @@ class _SidebarXItemConfig {
       label: e.label,
       icon: e.icon,
       onTap: () {
+        if (controller.selectedIndex == e.index) {
+          return;
+        }
+
         controller.push(e.index);
         context.read<GlobalKey<NavigatorState>>().currentState!.push(
               CustomNamedPageTransition(
