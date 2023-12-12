@@ -18,6 +18,8 @@ abstract class RepeatButtonState {
         return RepeatButtonOne();
       case RepeatMode.all:
         return RepeatButtonAll();
+      default:
+        throw Exception('Invalid repeat mode');
     }
   }
 }
