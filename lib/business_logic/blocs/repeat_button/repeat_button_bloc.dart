@@ -1,28 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/repeat_button/repeat_button_event.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/repeat_button/repeat_button_state.dart';
+import 'package:hitbeat_flutter/business_logic/repeat_mode.dart';
 
 class RepeatButtonBloc extends Bloc<RepeatButtonEvent, RepeatButtonState> {
-  RepeatButtonBloc() : super(_order.first) {
+  RepeatButtonBloc() : super(RepeatButtonNone()) {
     on<RepeatButtonToggle>((event, emit) {
-      emit(_nextState);
+      emit(RepeatButtonState.fromRepeatMode(_nextRepeatMode));
     });
   }
 
-  static final List<RepeatButtonState> _order = [
-    RepeatButtonNone(),
-    RepeatButtonOne(),
-    RepeatButtonAll(),
-  ];
-
-  RepeatButtonState get _nextState {
-    int indexOfCurrent = _order.indexOf(state);
-    if (indexOfCurrent == _order.length - 1) {
-      indexOfCurrent = 0;
-    } else {
-      indexOfCurrent++;
-    }
-
-    return _order[indexOfCurrent];
+  RepeatMode get _nextRepeatMode {
+    final nextIndex = RepeatMode.values.indexOf(state.repeatMode) + 1;
+    return RepeatMode.values[nextIndex % RepeatMode.values.length];
   }
 }
