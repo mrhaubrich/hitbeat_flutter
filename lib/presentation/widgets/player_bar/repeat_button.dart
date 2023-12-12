@@ -1,41 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hitbeat_flutter/business_logic/blocs/repeat_button/repeat_button_bloc.dart';
+import 'package:hitbeat_flutter/business_logic/blocs/repeat_button/repeat_button_event.dart';
+import 'package:hitbeat_flutter/business_logic/blocs/repeat_button/repeat_button_state.dart';
 
-class RepeatButton extends StatefulWidget {
+class RepeatButton extends StatelessWidget {
   const RepeatButton({super.key});
 
   @override
-  State<RepeatButton> createState() => _RepeatButtonState();
-}
-
-class _RepeatButtonState extends State<RepeatButton> {
-  RepeatMode repeatMode = RepeatMode.none;
-
-  @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: repeatMode == RepeatMode.none
-          ? const Icon(Icons.repeat_rounded)
-          : repeatMode == RepeatMode.one
-              ? const Icon(Icons.repeat_one_rounded)
-              : const Icon(Icons.repeat_rounded),
-      color: repeatMode == RepeatMode.none
-          ? Colors.white60
-          : Theme.of(context).primaryColor,
-      onPressed: () {
-        setState(() {
-          repeatMode = repeatMode == RepeatMode.none
-              ? RepeatMode.all
-              : repeatMode == RepeatMode.all
-                  ? RepeatMode.one
-                  : RepeatMode.none;
-        });
-      },
+    return BlocProvider(
+      create: (context) => RepeatButtonBloc(),
+      child: BlocBuilder<RepeatButtonBloc, RepeatButtonState>(
+        builder: (context, state) {
+          return IconButton(
+            icon: Icon(state.iconData),
+            color: state.getColor(context),
+            onPressed: () {
+              context.read<RepeatButtonBloc>().add(RepeatButtonToggle());
+            },
+          );
+        },
+      ),
     );
   }
-}
-
-enum RepeatMode {
-  none,
-  one,
-  all,
 }

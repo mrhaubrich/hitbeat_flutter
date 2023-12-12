@@ -3,7 +3,7 @@ import 'package:hitbeat_flutter/extensions/sidebar_stack.dart';
 import 'package:provider/provider.dart';
 import 'package:sidebarx/sidebarx.dart';
 
-class Miolo extends StatefulWidget {
+class Miolo extends StatelessWidget {
   const Miolo({
     super.key,
     required this.child,
@@ -15,18 +15,13 @@ class Miolo extends StatefulWidget {
   final SidebarXController sidebarXController;
 
   @override
-  State<Miolo> createState() => _MioloState();
-}
-
-class _MioloState extends State<Miolo> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,
         leading: ListenableBuilder(
-          listenable: widget.sidebarXController,
+          listenable: sidebarXController,
           builder: (context, value) {
             final navigatorKey =
                 Provider.of<GlobalKey<NavigatorState>>(context);
@@ -36,7 +31,7 @@ class _MioloState extends State<Miolo> {
                     color: Colors.white,
                     onPressed: () {
                       navigatorKey.currentState!.pop();
-                      widget.sidebarXController.pop();
+                      sidebarXController.pop();
                     },
                   )
                 : const SizedBox.shrink();
@@ -44,7 +39,7 @@ class _MioloState extends State<Miolo> {
         ),
       ),
       body: Center(
-        child: widget.child ?? const SizedBox.shrink(),
+        child: child ?? const SizedBox.shrink(),
       ),
     );
   }
