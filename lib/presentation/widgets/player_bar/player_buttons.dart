@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hitbeat_flutter/business_logic/player/player.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/play_pause_button.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/repeat_button.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/shuffle_button.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 
 class PlayerButtons extends StatelessWidget {
@@ -36,7 +36,7 @@ class PlayerButtons extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.skip_next),
             onPressed: () async {
-              return Provider.of<Player>(context, listen: false).skip();
+              return Provider.of<Player>(context, listen: false).next();
             },
           ),
           const RepeatButton(),

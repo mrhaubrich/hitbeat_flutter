@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:hitbeat_flutter/business_logic/player/player.dart';
-import 'package:hitbeat_flutter/business_logic/player/track.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_buttons.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_progress.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/volume_slider.dart';
 import 'package:marquee/marquee.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 
 class SongInfo extends StatelessWidget {
   const SongInfo({
     super.key,
-    required this.track,
+    this.track,
   });
 
-  final Track track;
+  final Track? track;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +48,7 @@ class SongInfo extends StatelessWidget {
           backgroundColor: Colors.transparent,
         ),
       ),
-      title: SongTitle(title: track.title),
+      title: SongTitle(title: track?.audio.title ?? 'No song playing'),
       subtitle: const ArtistName(),
     );
   }
@@ -194,17 +193,9 @@ class PlayerBar extends StatelessWidget {
           Expanded(
             flex: 2,
             child: StreamBuilder(
-              stream: Provider.of<Player>(context).currentTrackStream,
+              stream: Provider.of<Player>(context).stream.track,
               builder: (context, trackSnapshot) {
-                if (!trackSnapshot.hasData) {
-                  return SongInfo(
-                    track: Track(
-                      title: 'No song playing',
-                      path: '',
-                    ),
-                  );
-                }
-                return SongInfo(track: trackSnapshot.data!);
+                return SongInfo(track: trackSnapshot.data);
               },
             ),
           ),

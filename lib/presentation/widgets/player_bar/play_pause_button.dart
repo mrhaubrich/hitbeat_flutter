@@ -1,10 +1,9 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/play_pause/play_pause_bloc.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/play_pause/play_pause_event.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/play_pause/play_pause_state.dart';
-import 'package:hitbeat_flutter/business_logic/player/player.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 
 class PlayPauseButton extends StatelessWidget {
@@ -21,11 +20,8 @@ class PlayPauseButton extends StatelessWidget {
           return IconButton(
             onPressed: () async {
               final player = Provider.of<Player>(context, listen: false);
-              if (player.state == PlayerState.playing) {
-                await player.pause();
-              } else {
-                await player.resume();
-              }
+
+              await player.playOrPause();
 
               if (context.mounted) {
                 context
@@ -35,10 +31,10 @@ class PlayPauseButton extends StatelessWidget {
             },
             iconSize: 32,
             icon: StreamBuilder(
-              stream: Provider.of<Player>(context).playingStateStream,
+              stream: Provider.of<Player>(context).stream.playing,
               builder: (context, snapshot) {
                 return _AnimatedPlayPauseIcon(
-                  isPlaying: snapshot.data == PlayerState.playing,
+                  isPlaying: snapshot.data == true,
                 );
               },
             ),

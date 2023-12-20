@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/player_progress/player_progress_bloc.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/player_progress/player_progress_event.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/player_progress/player_progress_state.dart';
-import 'package:hitbeat_flutter/business_logic/player/player.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
@@ -24,7 +24,7 @@ class PlayerProgress extends StatelessWidget {
         child: BlocBuilder<PlayerProgressBloc, PlayerProgressState>(
           builder: (context, state) {
             return StreamBuilder(
-              stream: Provider.of<Player>(context).durationStream,
+              stream: Provider.of<Player>(context).stream.duration,
               builder: (context, durationSnapshot) {
                 return Row(
                   children: [

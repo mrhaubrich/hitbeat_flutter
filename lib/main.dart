@@ -1,30 +1,41 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:hitbeat_flutter/business_logic/player/player.dart';
+import 'package:hitbeat_flutter/business_logic/player/track.dart';
 import 'package:hitbeat_flutter/presentation/widgets/miolo.dart';
 import 'package:hitbeat_flutter/presentation/widgets/pages/page_content.dart';
 import 'package:hitbeat_flutter/presentation/widgets/player_bar/player_bar.dart';
 import 'package:hitbeat_flutter/presentation/widgets/sidebar/sidebar.dart';
 import 'package:hitbeat_flutter/themes.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final storage = LocalStorage('my_data.json');
-  await storage.ready;
-  final playerId = storage.getItem('playerId') as String?;
-  await storage.clear();
+  MediaKit.ensureInitialized();
 
   runApp(
     Provider<Player>(
       create: (_) {
-        if (playerId != null && playerId.isNotEmpty) {
-          final player = AudioPlayer(playerId: playerId);
-          player.release();
-        }
-        return Player();
+        return Player(
+          configuration: PlayerConfiguration(
+            ready: () async {
+              debugPrint('Player ready');
+            },
+          ),
+        )
+          ..open(
+            Playlist(
+              [
+                Media(
+                  mockTrack.path,
+                ),
+                Media(
+                  mockTrack2.path,
+                ),
+              ],
+            ),
+          )
+          ..setAudioTrack(AudioTrack.auto());
       },
       child: SidebarXExampleApp(),
     ),

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/player_progress/player_progress_event.dart';
 import 'package:hitbeat_flutter/business_logic/blocs/player_progress/player_progress_state.dart';
-import 'package:hitbeat_flutter/business_logic/player/player.dart';
+import 'package:media_kit/media_kit.dart';
 
 class PlayerProgressBloc
     extends Bloc<PlayerProgressEvent, PlayerProgressState> {
@@ -15,7 +15,7 @@ class PlayerProgressBloc
     required double max,
     required this.player,
   }) : super(PlayerProgressInitial(max: max)) {
-    _positionSubscription = player.positionStream.listen((event) {
+    _positionSubscription = player.stream.position.listen((event) {
       handler(event, max);
     });
 
@@ -26,11 +26,11 @@ class PlayerProgressBloc
       emit(PlayerProgressChanged(value: event.value, max: event.max));
     });
 
-    on<PlayerProgressFinish>((event, emit) {
+    on<PlayerProgressFinish>((event, emit) async {
       final duration = Duration(seconds: event.value.toInt());
-      player.seek(duration);
+      await player.seek(duration);
       emit(PlayerProgressEnd(value: event.value, max: event.max));
-      _positionSubscription = player.positionStream.listen((event) {
+      _positionSubscription = player.stream.position.listen((event) {
         handler(event, max);
       });
     });

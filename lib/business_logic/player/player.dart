@@ -1,124 +1,131 @@
-import 'dart:async';
+// import 'package:flutter/foundation.dart';
+// import 'package:hitbeat_flutter/business_logic/player/track.dart'
+//     as my_track_module;
+// import 'package:localstorage/localstorage.dart';
+// import 'package:media_kit/media_kit.dart';
 
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
-import 'package:hitbeat_flutter/business_logic/player/track.dart';
-import 'package:localstorage/localstorage.dart';
+// class MyPlayer {
+//   final List<my_track_module.Track> _tracks = [];
+//   final int _currentTrackIndex = 0;
 
-class Player {
-  final List<Track> _tracks = [];
-  int _currentTrackIndex = 0;
+//   Player? _audioPlayer;
 
-  AudioPlayer? _audioPlayer;
+//   MyPlayer() {
+//     _init();
+//   }
 
-  Player() {
-    _init();
-  }
+//   void _init() async {
+//     _tracks.add(my_track_module.mockTrack);
+//     _tracks.add(my_track_module.mockTrack2);
+//     _tracks.add(my_track_module.mockTrack);
+//     final storage = LocalStorage('my_data.json');
+//     await storage.ready;
+//     // initializeAudioPlayer();
+//     _audioPlayer = Player(
+//       configuration: PlayerConfiguration(
+//         ready: () async {
+//           debugPrint('Player ready');
+//         },
+//       ),
+//     );
+//     // await _audioPlayer?.setSourceUrl(mockTrack.path);
+//     await _audioPlayer?.setAudioTrack(
+//       AudioTrack.uri(
+//         _tracks[0].path,
+//       ),
+//     );
+//     debugPrint('Player initialized');
+//   }
 
-  void _init() async {
-    _tracks.add(mockTrack);
-    _tracks.add(mockTrack2);
-    _tracks.add(mockTrack);
-    final storage = LocalStorage('my_data.json');
-    await storage.ready;
-    initializeAudioPlayer();
-    final playerId = _audioPlayer?.playerId;
-    storage.setItem('playerId', playerId);
+//   // void initializeAudioPlayer() {
+//   //   _audioPlayer?.onPlayerComplete.listen((event) {
+//   //     skip();
+//   //   });
+//   // }
 
-    // await _audioPlayer?.setSourceUrl(mockTrack.path);
-    await _audioPlayer?.setSourceAsset(mockTrack.path);
-    debugPrint('Player initialized');
-  }
+//   // void addTrack(my_track_module.Track track) async {
+//   //   _tracks.add(track);
 
-  void initializeAudioPlayer() {
-    _audioPlayer?.onPlayerComplete.listen((event) {
-      skip();
-    });
-  }
+//   //   if (_tracks.length == 1) {
+//   //     if (_audioPlayer?.state == PlayerState.stopped) {
+//   //       await _audioPlayer?.setSourceAsset(mockTrack.path);
+//   //     }
+//   //   }
+//   // }
 
-  void addTrack(Track track) async {
-    _tracks.add(track);
+//   // Future<void> skip() async {
+//   //   if (_currentTrackIndex + 1 < _tracks.length) {
+//   //     _currentTrackIndex++;
+//   //     await _audioPlayer?.stop();
+//   //     await _audioPlayer?.setSourceAsset(mockTrack.path);
+//   //     await _audioPlayer?.resume();
+//   //   }
+//   // }
 
-    if (_tracks.length == 1) {
-      if (_audioPlayer?.state == PlayerState.stopped) {
-        await _audioPlayer?.setSourceAsset(mockTrack.path);
-      }
-    }
-  }
+//   // Future<void> seek(Duration position) async {
+//   //   await _audioPlayer?.seek(position);
+//   // }
 
-  Future<void> skip() async {
-    if (_currentTrackIndex + 1 < _tracks.length) {
-      _currentTrackIndex++;
-      await _audioPlayer?.stop();
-      await _audioPlayer?.setSourceAsset(mockTrack.path);
-      await _audioPlayer?.resume();
-    }
-  }
+//   // my_track_module.Track get currentTrack => _tracks[_currentTrackIndex];
 
-  Future<void> seek(Duration position) async {
-    await _audioPlayer?.seek(position);
-  }
+//   // List<my_track_module.Track> get tracks => _tracks;
 
-  Track get currentTrack => _tracks[_currentTrackIndex];
+//   // Future<void> resume() async {
+//   //   await _audioPlayer?.resume();
+//   // }
 
-  List<Track> get tracks => _tracks;
+//   // Future<void> pause() async {
+//   //   await _audioPlayer?.pause();
+//   // }
 
-  Future<void> resume() async {
-    await _audioPlayer?.resume();
-  }
+//   // PlayerState get state => _audioPlayer?.state ?? PlayerState.disposed;
 
-  Future<void> pause() async {
-    await _audioPlayer?.pause();
-  }
+//   // Stream<my_track_module.Track?> get currentTrackStream async* {
+//   //   yield currentTrack;
 
-  PlayerState get state => _audioPlayer?.state ?? PlayerState.disposed;
+//   //   my_track_module.Track innerCurrentTrack = currentTrack;
 
-  Stream<Track?> get currentTrackStream async* {
-    yield currentTrack;
+//   //   while (true) {
+//   //     await Future.delayed(const Duration(milliseconds: 100));
+//   //     if (innerCurrentTrack != currentTrack) {
+//   //       innerCurrentTrack = currentTrack;
+//   //       yield currentTrack;
+//   //     }
+//   //   }
+//   // }
 
-    Track innerCurrentTrack = currentTrack;
+//   // Stream<Duration?> get positionStream async* {
+//   //   StreamController<Duration?> controller = StreamController.broadcast();
 
-    while (true) {
-      await Future.delayed(const Duration(milliseconds: 100));
-      if (innerCurrentTrack != currentTrack) {
-        innerCurrentTrack = currentTrack;
-        yield currentTrack;
-      }
-    }
-  }
+//   //   _audioPlayer?.onPositionChanged.listen((event) {
+//   //     controller.add(event);
+//   //   });
 
-  Stream<Duration?> get positionStream async* {
-    StreamController<Duration?> controller = StreamController.broadcast();
+//   //   yield* controller.stream;
+//   // }
 
-    _audioPlayer?.onPositionChanged.listen((event) {
-      controller.add(event);
-    });
+//   // Stream<PlayerState?> get playingStateStream async* {
+//   //   StreamController<PlayerState?> controller = StreamController.broadcast();
 
-    yield* controller.stream;
-  }
+//   //   _audioPlayer?.onPlayerStateChanged.listen((event) {
+//   //     controller.sink.add(event);
+//   //   });
 
-  Stream<PlayerState?> get playingStateStream async* {
-    StreamController<PlayerState?> controller = StreamController.broadcast();
+//   //   yield* controller.stream;
+//   // }
 
-    _audioPlayer?.onPlayerStateChanged.listen((event) {
-      controller.sink.add(event);
-    });
+//   // Stream<Duration?> get durationStream async* {
+//   //   StreamController<Duration?> controller = StreamController.broadcast();
 
-    yield* controller.stream;
-  }
+//   //   _audioPlayer?.onDurationChanged.listen((event) {
+//   //     controller.sink.add(event);
+//   //   });
 
-  Stream<Duration?> get durationStream async* {
-    StreamController<Duration?> controller = StreamController.broadcast();
+//   //   yield* controller.stream;
+//   // }
 
-    _audioPlayer?.onDurationChanged.listen((event) {
-      controller.sink.add(event);
-    });
-
-    yield* controller.stream;
-  }
-
-  void dispose() {
-    _audioPlayer?.dispose();
-    debugPrint('Player disposed');
-  }
-}
+//   void dispose() {
+//     _audioPlayer?.dispose();
+//     debugPrint('Player disposed');
+//   }
+// }
